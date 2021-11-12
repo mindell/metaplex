@@ -24,7 +24,11 @@ export async function ipfsUpload(
     const { cid } = await ipfs.add(source).catch();
     return cid;
   };
+  const manifestJson = JSON.parse(manifestBuffer.toString('utf8'));
+  const img = `${manifestJson.properties.hash}/${manifestJson.properties.nonce}`;
 
+  //const sk8MediaUrl = `http://localhost:8000/assets/${img}`;
+  const sk8MediaUrl = `https://api.skatepunkz.io/assets/${img}`;
   const mediaHash = await uploadToIpfs(globSource(image, { recursive: true }));
   log.debug('mediaHash:', mediaHash);
   const mediaUrl = `https://ipfs.io/ipfs/${mediaHash}`;
@@ -40,10 +44,10 @@ export async function ipfsUpload(
 
   await sleep(500);
 
-  const manifestJson = JSON.parse(manifestBuffer.toString('utf8'));
-  manifestJson.image = mediaUrl;
+  manifestJson.properties.ipfs = mediaUrl;
+  manifestJson.image = sk8MediaUrl;
   manifestJson.properties.files = manifestJson.properties.files.map(f => {
-    return { ...f, uri: mediaUrl };
+    return { ...f, uri: sk8MediaUrl };
   });
 
   const manifestHash = await uploadToIpfs(
