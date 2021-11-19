@@ -67,5 +67,5 @@ export async function ipfsUpload(
   const link = `https://ipfs.io/ipfs/${manifestHash}`;
   log.info('uploaded manifest: ', link);
 
-  return link;
+  return [link, mediaUrl];
 }
