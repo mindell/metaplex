@@ -42,7 +42,7 @@ export async function ipfsUpload(
   });
   log.info('uploaded image for file:', image);
 
-  await sleep(2000);
+  await sleep(6000);
 
   manifestJson.properties.ipfs = mediaUrl;
   manifestJson.image = sk8MediaUrl;
@@ -63,7 +63,7 @@ export async function ipfsUpload(
     },
   );
 
-  await sleep(2000);
+  await sleep(6000);
   const link = `https://ipfs.io/ipfs/${manifestHash}`;
   log.info('uploaded manifest: ', link);
 
